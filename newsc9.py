@@ -1753,20 +1753,30 @@ def ririnBot(op):
                                     group = ririn.findGroupByTicket(ticket_id)
                                     ririn.acceptGroupInvitationByTicket(group.id,ticket_id)
                                     ririn.sendMessage(to, "sᴜᴄᴄᴇssғᴜʟʟʏ ᴇɴᴛᴇʀᴇᴅ ᴛʜᴇ ɢʀᴏᴜᴘ %s" % str(group.name))
-                        if 'MENTION' in msg.contentMetadata.keys()!= None:
-                            names = re.findall(r'@(\w+)', text)
-                            mention = ast.literal_eval(msg.contentMetadata['MENTION'])
-                            mentionees = mention['MENTIONEES']
-                            lists = []
-                            for mention in mentionees:
-                                if ririnMid in mention["M"]:
-                                    if wait["autoRespon"] == True:
-                                    	ririn.sendChatChecked(msg._from,msg.id)
-                                    	contact = ririn.getContact(msg._from)
-                                    	ririn.sendImageWithURL(msg._from, "http://dl.profile.line-cdn.net{}".format(contact.picturePath))
-                                    	sendMention(sender, "ᴏɪ ᴍʙʟᴏ @!      ,\nɴɢᴀᴘᴀɪɴ ᴛᴀɢ ᴛᴀɢ ɢᴡ", [sender])
-                                    	dee = "" + random.choice(balas)
-                                    break
+                        if 'MENTION' in msg.contentMetadata.keys() != None:
+                 if wait["autoRespon"] == True:          
+                    contact = ririn.getContact(msg.from_)
+                    cName = contact.displayName
+                    balas = ["Woii " + cName + ", Nah yang kangen gw nambah 1 orng"]
+                    balas1 = "Jangan tag orng nya lagi bobo"
+                    ret_ = random.choice(balas)
+                    image = "http://dl.profile.line-cdn.net/" + contact.pictureStatus
+                    name = re.findall(r'@(\w+)', msg.text)
+                    mention = ast.literal_eval(msg.contentMetadata['MENTION'])
+                    mentionees = mention['MENTIONEES']
+                    for mention in mentionees:
+                           if mention['M'] in Bots:
+                                  ririn.sendText(msg.to,ret_)
+                                  ririn.sendText(msg.to,balas1)
+                                  ririn.sendImageWithURL(msg.to,image)
+                                  msg.contentType = 7   
+                                  msg.text = None
+                                  msg.contentMetadata = {
+                                                       "STKID": "17773521",
+                                                       "STKPKGID": "1480028",
+                                                       "STKVER": "1" }
+                                  ririn.sendMessage(msg)                                
+                                  break  
             except Exception as error:
                 logError(error)
                 traceback.print_tb(error.__traceback__)
